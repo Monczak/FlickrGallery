@@ -6,15 +6,23 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.google.gson.GsonBuilder
+import edu.pwr.s266867.flickrgallery.composables.FlickrGallery
+import edu.pwr.s266867.flickrgallery.composables.FlickrGalleryScreen
+import edu.pwr.s266867.flickrgallery.data.FlickrApi
+import edu.pwr.s266867.flickrgallery.data.FlickrRepo
+import edu.pwr.s266867.flickrgallery.models.FlickrGalleryViewModel
 import edu.pwr.s266867.flickrgallery.ui.theme.FlickrGalleryTheme
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.create
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             FlickrGalleryTheme {
                 // A surface container using the 'background' color from the theme
@@ -22,25 +30,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    FlickrGalleryScreen()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FlickrGalleryTheme {
-        Greeting("Android")
     }
 }
