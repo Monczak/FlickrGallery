@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Flickr Gallery</string>
+
+    <string name="search_placeholder">Search by tags</string>
+
+    <string name="timed_out_header">Timed out</string>
+    <string name="timed_out_desc">Check your Internet connection and try again.</string>
+
+    <string name="fetch_error_header">Oh, fiddlesticks</string>
 </resources>
