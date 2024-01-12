@@ -7,4 +7,17 @@
     <string name="timed_out_desc">Check your Internet connection and try again.</string>
 
     <string name="fetch_error_header">Oh, fiddlesticks</string>
+
+    <string name="photo_unknown_author">(unknown author)</string>
+    <string name="photo_untitled">(untitled)</string>
+
+    <string name="duration_just_now">just now</string>
+    <string name="duration_minutes_singular">minute</string>
+    <string name="duration_minutes_plural">minutes</string>
+    <string name="duration_hours_singular">hour</string>
+    <string name="duration_hours_plural">hours</string>
+    <string name="duration_days_singular">day</string>
+    <string name="duration_days_plural">days</string>
+
+    <string name="time_ago_template">%1$d %2$s ago</string>
 </resources>

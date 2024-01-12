@@ -19,7 +19,10 @@ data class FlickrItem(
     val author: String,
     val author_id: String,
     val tags: String
-)
+) {
+    val authorName: String? get() = Regex("""nobody@flickr\.com \("(.*)"\)""").find(author)?.groupValues?.get(1)
+    val prettyTitle: String? get() = if (title.trim().isEmpty()) null else title
+}
 
 data class FlickrMedia(
     val m: String

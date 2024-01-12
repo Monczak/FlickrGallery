@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import edu.pwr.s266867.flickrgallery.LocalDim
 import edu.pwr.s266867.flickrgallery.R
 import edu.pwr.s266867.flickrgallery.models.FlickrGalleryViewModel
 
@@ -52,11 +53,13 @@ fun FlickrGallery(modifier: Modifier = Modifier, viewModel: FlickrGalleryViewMod
                 if (index == 0) {
                     Spacer(
                         modifier = modifier
-                            .height(topPadding)
+                            .height(topPadding + LocalDim.current.spacingBetweenPhotos)
                     )
                 }
 
                 FlickrPhoto(photoData = photos.items[index])
+
+                Spacer(modifier = Modifier.height(LocalDim.current.spacingBetweenPhotos))
             }
         }
     }
