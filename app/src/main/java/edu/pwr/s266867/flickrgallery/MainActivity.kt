@@ -1,3 +1,7 @@
+// Testing devices:
+// Virtual: Pixel 3a (API 34)
+// Physical: OnePlus 7T Pro (Android 12)
+
 package edu.pwr.s266867.flickrgallery
 
 import android.os.Bundle
