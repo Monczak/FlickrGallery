@@ -1,5 +1,6 @@
 package edu.pwr.s266867.flickrgallery.models
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,7 +24,12 @@ class FlickrGalleryViewModel(private val repo: FlickrRepo) : ViewModel() {
             photos.value = null
 
             try {
-                photos.value = repo.getPublicPhotos(tags)
+                val filteredTags = tags.filter { it.isNotEmpty() }
+
+                if (filteredTags.isEmpty())
+                    photos.value = repo.getPublicPhotos(listOf("nature")) // Just needed a default tag, since untagged photos in the public feed are often... explicit
+                else
+                    photos.value = repo.getPublicPhotos(filteredTags)
             }
             catch (e: TimeoutException) {
                 timedOut.value = true

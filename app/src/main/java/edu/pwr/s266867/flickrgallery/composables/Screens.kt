@@ -1,5 +1,6 @@
 package edu.pwr.s266867.flickrgallery.composables
 
+import android.util.Log
 import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -67,6 +68,7 @@ fun FlickrGalleryScreen(modifier: Modifier = Modifier) {
                     onQueryChange = { query = it },
                     onSearch = {
                         searchActive = false
+                        Log.d("DEBUG", it.split(" ").toString())
                         viewModel.loadPhotos(it.split(" "))
                     },
                     active = searchActive,
