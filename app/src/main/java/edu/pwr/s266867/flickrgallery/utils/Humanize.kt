@@ -30,7 +30,7 @@ object Humanize {
         val instant: Instant?,
     )
 
-    fun timeAgo(instant: Instant, clock: Clock = Clock.System): DateAgo? {
+    fun timeAgo(instant: Instant, clock: Clock = Clock.System): DateAgo {
         val duration = clock.now() - instant
 
         val minutes = duration.inWholeMinutes
@@ -38,7 +38,7 @@ object Humanize {
         val days = duration.inWholeDays
 
         return when {
-            duration.isNegative() -> null
+            duration.isNegative() -> DateAgo(DateAgoType.DATE, null, instant)
             minutes < 1 -> DateAgo(DateAgoType.JUST_NOW, null, null)
             minutes < 60 -> DateAgo(DateAgoType.MINUTES, minutes, null)
             hours < 24 -> DateAgo(DateAgoType.HOURS, hours, null)
@@ -47,16 +47,14 @@ object Humanize {
         }
     }
 
-    fun beautify(context: Context, dateAgo: DateAgo?): String = when (dateAgo?.type) {
+    fun beautify(context: Context, dateAgo: DateAgo): String = when (dateAgo.type) {
         DateAgoType.JUST_NOW -> context.resources.getString(R.string.duration_just_now)
         DateAgoType.MINUTES -> context.resources.getString(R.string.time_ago_template, dateAgo.value, context.resources.getString(if (dateAgo.value == 1L) R.string.duration_minutes_singular else R.string.duration_minutes_plural))
         DateAgoType.HOURS -> context.resources.getString(R.string.time_ago_template, dateAgo.value, context.resources.getString(if (dateAgo.value == 1L) R.string.duration_hours_singular else R.string.duration_hours_plural))
         DateAgoType.DAYS -> context.resources.getString(R.string.time_ago_template, dateAgo.value, context.resources.getString(if (dateAgo.value == 1L) R.string.duration_days_singular else R.string.duration_days_plural))
-        DateAgoType.DATE -> {
+        else -> {
             val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
             ZonedDateTime.parse(dateAgo.instant.toString()).format(formatter)
         }
-
-        else -> "unknown"
     }
 }

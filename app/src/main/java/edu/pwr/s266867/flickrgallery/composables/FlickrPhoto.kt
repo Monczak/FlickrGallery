@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
@@ -27,6 +28,7 @@ import edu.pwr.s266867.flickrgallery.data.FlickrItem
 import edu.pwr.s266867.flickrgallery.data.FlickrMedia
 import edu.pwr.s266867.flickrgallery.ui.theme.FlickrGalleryTheme
 import edu.pwr.s266867.flickrgallery.utils.Humanize
+import edu.pwr.s266867.flickrgallery.utils.StringUtils
 import kotlinx.datetime.toInstant
 
 @Composable
@@ -38,7 +40,7 @@ fun FlickrPhoto(modifier: Modifier = Modifier, photoData: FlickrItem) {
         ) {
             Text(
                 text = if (photoData.authorName != null) {
-                    photoData.authorName!!
+                    StringUtils.abbreviate(photoData.authorName!!, 24)
                 } else {
                     stringResource(id = R.string.photo_unknown_author)
                 },
@@ -48,7 +50,7 @@ fun FlickrPhoto(modifier: Modifier = Modifier, photoData: FlickrItem) {
             Text(text = "•", style = MaterialTheme.typography.labelSmall)
             Text(text = Humanize.beautify(LocalContext.current, Humanize.timeAgo(photoData.published.toInstant())), style = MaterialTheme.typography.labelSmall)
             Text(text = "•", style = MaterialTheme.typography.labelSmall)
-            Text(text = "Taken " + Humanize.beautify(LocalContext.current, Humanize.timeAgo(photoData.date_taken.toInstant())), style = MaterialTheme.typography.labelSmall)
+            Text(text = stringResource(id = R.string.taken_template, Humanize.beautify(LocalContext.current, Humanize.timeAgo(photoData.date_taken.toInstant()))), style = MaterialTheme.typography.labelSmall)
         }
 
         Text(
@@ -63,6 +65,7 @@ fun FlickrPhoto(modifier: Modifier = Modifier, photoData: FlickrItem) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
+                .defaultMinSize(minHeight = 200.dp)
                 .clickable {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(photoData.link))
                     context.startActivity(intent)

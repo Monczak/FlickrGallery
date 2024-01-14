@@ -20,4 +20,8 @@
     <string name="duration_days_plural">days</string>
 
     <string name="time_ago_template">%1$d %2$s ago</string>
+
+    <string name="time_future">in the future</string>
+
+    <string name="taken_template">Taken %1$s</string>
 </resources>
