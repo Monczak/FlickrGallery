@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import edu.pwr.s266867.flickrgallery.data.FlickrRepo
 import edu.pwr.s266867.flickrgallery.data.FlickrResponse
 import edu.pwr.s266867.flickrgallery.utils.TimeoutException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class FlickrGalleryViewModel(private val repo: FlickrRepo) : ViewModel() {

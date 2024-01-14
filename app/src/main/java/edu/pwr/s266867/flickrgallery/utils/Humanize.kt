@@ -16,22 +16,47 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 object Humanize {
-    fun timeAgo(context: Context, instant: Instant): String {
-        val duration = Clock.System.now() - instant
+    enum class DateAgoType {
+        JUST_NOW,
+        MINUTES,
+        HOURS,
+        DAYS,
+        DATE
+    }
+
+    data class DateAgo(
+        val type: DateAgoType,
+        val value: Long?,
+        val instant: Instant?,
+    )
+
+    fun timeAgo(instant: Instant, clock: Clock = Clock.System): DateAgo? {
+        val duration = clock.now() - instant
 
         val minutes = duration.inWholeMinutes
         val hours = duration.inWholeHours
         val days = duration.inWholeDays
 
         return when {
-            minutes < 1 -> context.resources.getString(R.string.duration_just_now)
-            minutes < 60 -> context.resources.getString(R.string.time_ago_template, minutes, context.resources.getString(if (minutes == 1L) R.string.duration_minutes_singular else R.string.duration_minutes_plural))
-            hours < 24 -> context.resources.getString(R.string.time_ago_template, hours, context.resources.getString(if (hours == 1L) R.string.duration_hours_singular else R.string.duration_hours_plural))
-            days < 7 -> context.resources.getString(R.string.time_ago_template, days, context.resources.getString(if (days == 1L) R.string.duration_days_singular else R.string.duration_days_plural))
-            else -> {
-                val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
-                ZonedDateTime.parse(instant.toString()).format(formatter)
-            }
+            duration.isNegative() -> null
+            minutes < 1 -> DateAgo(DateAgoType.JUST_NOW, null, null)
+            minutes < 60 -> DateAgo(DateAgoType.MINUTES, minutes, null)
+            hours < 24 -> DateAgo(DateAgoType.HOURS, hours, null)
+            days < 7 -> DateAgo(DateAgoType.DAYS, days, null)
+            else -> DateAgo(DateAgoType.DATE, null, instant)
         }
+    }
+
+    fun beautify(context: Context, dateAgo: DateAgo?): String = when (dateAgo?.type) {
+        DateAgoType.JUST_NOW -> context.resources.getString(R.string.duration_just_now)
+        DateAgoType.MINUTES -> context.resources.getString(R.string.time_ago_template, dateAgo.value, context.resources.getString(if (dateAgo.value == 1L) R.string.duration_minutes_singular else R.string.duration_minutes_plural))
+        DateAgoType.HOURS -> context.resources.getString(R.string.time_ago_template, dateAgo.value, context.resources.getString(if (dateAgo.value == 1L) R.string.duration_hours_singular else R.string.duration_hours_plural))
+        DateAgoType.DAYS -> context.resources.getString(R.string.time_ago_template, dateAgo.value, context.resources.getString(if (dateAgo.value == 1L) R.string.duration_days_singular else R.string.duration_days_plural))
+        DateAgoType.DATE -> {
+            val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+            ZonedDateTime.parse(dateAgo.instant.toString()).format(formatter)
+        }
+
+        else -> "unknown"
     }
 }

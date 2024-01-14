@@ -46,9 +46,9 @@ fun FlickrPhoto(modifier: Modifier = Modifier, photoData: FlickrItem) {
             )
 
             Text(text = "•", style = MaterialTheme.typography.labelSmall)
-            Text(text = Humanize.timeAgo(LocalContext.current, photoData.published.toInstant()), style = MaterialTheme.typography.labelSmall)
+            Text(text = Humanize.beautify(LocalContext.current, Humanize.timeAgo(photoData.published.toInstant())), style = MaterialTheme.typography.labelSmall)
             Text(text = "•", style = MaterialTheme.typography.labelSmall)
-            Text(text = "Taken " + Humanize.timeAgo(LocalContext.current, photoData.date_taken.toInstant()), style = MaterialTheme.typography.labelSmall)
+            Text(text = "Taken " + Humanize.beautify(LocalContext.current, Humanize.timeAgo(photoData.date_taken.toInstant())), style = MaterialTheme.typography.labelSmall)
         }
 
         Text(
